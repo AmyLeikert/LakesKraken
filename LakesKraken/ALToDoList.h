@@ -10,4 +10,6 @@
 
 @interface ALToDoList : UITableViewController
 
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+
 @end

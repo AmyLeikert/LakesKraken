@@ -29,6 +29,14 @@
     
     self.view.backgroundColor = [UIColor colorWithRed:1 green:0.937 blue:0.78 alpha:1];
     self.navigationController.navigationBar.translucent = NO;
+    
+    UIBarButtonItem *addToDoItem = [[UIBarButtonItem alloc]
+                                    initWithBarButtonSystemItem:UIBarButtonSystemItemDone
+                                    target:self
+                                    action:@selector(segueToAddToDoItem)];
+    self.navigationItem.rightBarButtonItem = addToDoItem;
+    
+    
     // Do any additional setup after loading the view from its nib.
 }
 

@@ -8,12 +8,26 @@
 
 #import "ALToDoList.h"
 #import "ALAddToDoItem.h"
+#import "ALToDoItem.h"
 
 @interface ALToDoList ()
+
+@property NSMutableArray *toDoItems;
 
 @end
 
 @implementation ALToDoList
+
+-(void)loadInitialData {
+    
+    ALToDoItem *item1 = [[ALToDoItem alloc]init];
+    item1.itemName = @"Tent";
+    [self.toDoItems addObject:item1];
+    
+    ALToDoItem *item2 = [[ALToDoItem alloc]init];
+    item2.itemName = @"Sunscreen";
+    [self.toDoItems addObject:item2];
+}
 
 - (void)viewDidLoad
 {
@@ -22,6 +36,11 @@
     self.navigationController.navigationBar.translucent = NO;
     
     self.title = @"What To Pack";
+    
+    [self.tableView registerClass: [UITableViewCell class] forCellReuseIdentifier:@"reuseIdentifier"];
+    
+    self.toDoItems = [[NSMutableArray alloc]init];
+    [self loadInitialData];
     
     UIBarButtonItem *addToDoItem = [[UIBarButtonItem alloc]
                                    initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
@@ -35,6 +54,27 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return [self.toDoItems count];
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier" forIndexPath:indexPath];
+    
+    if (!cell) {
+        cell = [tableView dequeueReusableCellWithIdentifier:@"reuseIdentifier"];
+    }
+
+    ALToDoItem *toDoItem = [self.toDoItems objectAtIndex:indexPath.row];
+    cell.textLabel.text = toDoItem.itemName;
+
+    return cell;
+
+}
 -(void)segueToAddToDoItem {
     ALAddToDoItem *add = [[ALAddToDoItem alloc]init];
     [self.navigationController pushViewController:add animated:YES];
@@ -47,20 +87,6 @@
 }
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
-    return 0;
-}
 
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
